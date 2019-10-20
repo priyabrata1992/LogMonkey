@@ -13,5 +13,6 @@ namespace LogMonkey.Constants
         public static String NoDatabaseConnectionProvidedForFallbackMessage = "Fallback mode set to database, database connection was not provided.";
         public static String NoFilePathProvidedMessage = "File path was not provided.";
         public static String NoFilePathProvidedForFallbackMessage = "Fallback mode set to file, file path was not provided.";
+        public static String LoggerNotInitializedMessage = "Logger has not been initialized. Please initialize with LoggerConfiguration before getting instance.";
     }
 }

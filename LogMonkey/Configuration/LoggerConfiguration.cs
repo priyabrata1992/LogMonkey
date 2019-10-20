@@ -38,8 +38,11 @@ namespace LogMonkey.ComponentImpl
         private String filePath;
         public string FilePath { get => filePath; }
 
+        //Flag to decide if InnerExceptions should be logged or not.
         private bool logInnerException;
         public bool LogInnerException { get => logInnerException; }
+
+
 
         //Empty private constructor - we don't want multiple instances of this class.
         protected LoggerConfiguration()

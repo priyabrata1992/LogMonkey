@@ -40,18 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentImpl\LoggerConfiguration.cs" />
+    <Compile Include="Configuration\LoggerConfiguration.cs" />
     <Compile Include="Exceptions\NoFilePathProvidedException.cs" />
     <Compile Include="Exceptions\NoDatabaseConnectionProvidedException.cs" />
-    <Compile Include="Constants\LoggerConstants.cs" />
+    <Compile Include="Constants\LogConstants.cs" />
     <Compile Include="Exceptions\LoggerException.cs" />
     <Compile Include="Exceptions\PrimaryLoggingSchemeMissingException.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Meta\LogMode.cs" />
+    <Compile Include="Exceptions\LoggerNotInitializedException.cs" />
+    <Compile Include="Modes\LogMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\" />
+    <Folder Include="Database\" />
+    <Folder Include="File\" />
+    <Folder Include="Mail\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

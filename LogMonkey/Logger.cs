@@ -14,13 +14,29 @@ namespace LogMonkey
         
         private static readonly object mLock = new object();
         private static Logger MLogger;
-        private static LoggerConfiguration mLoggerConfiguration;
+        private static LoggerConfiguration sLoggerConfiguration;
+        private static LoggerConfiguration sAlternateConfiguration;
+        private static LoggerConfiguration sActiveLoggerConfiguration;
+        private static bool useAlternateConfiguration;
 
-        public static Logger Instance(LoggerConfiguration loggerConfiguration)
+        //Initialize Logger.
+        public static void Initialize(LoggerConfiguration loggerConfiguration, LoggerConfiguration alternateConfiguration = null)
         {
+            sLoggerConfiguration = loggerConfiguration;
+            sAlternateConfiguration = alternateConfiguration;
+            sActiveLoggerConfiguration = sLoggerConfiguration;
+            useAlternateConfiguration = false;
+        }
+
+        //Get a singleton instance of logger.
+        public static Logger Instance()
+        {
+            if (sActiveLoggerConfiguration == null)
+            {
+                throw new LoggerNotInitializedException();
+            }
             lock (mLock)
             {
-                mLoggerConfiguration = loggerConfiguration;
                 if (MLogger == null)
                 {
                     MLogger = new Logger();
@@ -29,12 +45,24 @@ namespace LogMonkey
             }
         }
 
-        public bool E(Exception ex)
+        private void ToggleAlternateConfiguration()
+        {
+            useAlternateConfiguration = !useAlternateConfiguration;
+        }
+
+        public bool SwitchConfiguration()
+        {
+            ToggleAlternateConfiguration();
+            sActiveLoggerConfiguration = (useAlternateConfiguration) ? sAlternateConfiguration : sLoggerConfiguration;
+            return useAlternateConfiguration;
+        }
+
+        public bool Error(Exception ex)
         {
             if (ex != null)
             {
                 Console.WriteLine("Exception::" + ex.ToString());
-                if (mLoggerConfiguration.LogInnerException)
+                if (sActiveLoggerConfiguration.LogInnerException)
                 {
                     if (ex.InnerException != null)
                     {
@@ -49,13 +77,23 @@ namespace LogMonkey
             return true;
         }
 
-        public bool E(Exception ex, params object[] extraInformation)
+        public bool Error(Exception ex, params object[] extraInformation)
         {
-            this.E(ex);
+            this.Error(ex);
             foreach (var e in extraInformation)
             {
                 Console.WriteLine(e.ToString());
             }
+            return true;
+        }
+
+        public bool Warning()
+        {
+            return true;
+        }
+
+        public bool Information()
+        {
             return true;
         }
 

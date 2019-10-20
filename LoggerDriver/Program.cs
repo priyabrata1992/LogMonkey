@@ -14,6 +14,8 @@ namespace LoggerDriver
         static void Main(string[] args)
         {
             SqlConnection connection = new SqlConnection();
+
+            //Build the configuration
             LoggerConfiguration configuration = LoggerConfiguration
                .Builder()
                .SetPrimaryLoggingMode(LogMode.Database)
@@ -23,15 +25,28 @@ namespace LoggerDriver
                //.SetFilePath("")
                .Build();
 
+            //Build the alternate configurationhh
+            LoggerConfiguration alternateConfiguration = LoggerConfiguration
+               .Builder()
+               .SetPrimaryLoggingMode(LogMode.Database)
+               //.SetFallbackLoggingMode(LogMode.File)
+               .SetDatabaseConnection(connection)
+               .SetLogInnerException(false)
+               //.SetFilePath("")
+               .Build();
 
-            Logger logger = Logger.Instance(configuration);
+            //Initialization of the logger
+            Logger.Initialize(configuration, alternateConfiguration);
+            Logger logger = Logger.Instance();
+
+            logger.SwitchConfiguration();
 
             try {
                 throw new DivideByZeroException();
             }
             catch(Exception ex)
             {
-                logger.E(ex, "Exception happended for input "+ "Some input");
+                logger.Error(ex, "Exception happended for input "+ "Some input");
             }
             Console.ReadKey();
         }
