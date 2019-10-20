@@ -38,6 +38,9 @@ namespace LogMonkey.ComponentImpl
         private String filePath;
         public string FilePath { get => filePath; }
 
+        private bool logInnerException;
+        public bool LogInnerException { get => logInnerException; }
+
         //Empty private constructor - we don't want multiple instances of this class.
         protected LoggerConfiguration()
         {
@@ -89,6 +92,13 @@ namespace LogMonkey.ComponentImpl
         public LoggerConfiguration SetFilePath(String filePath)
         {
             this.filePath = filePath;
+            return this;
+        }
+
+        //Enable logging of inner exception.
+        public LoggerConfiguration SetLogInnerException(bool logInnerException)
+        {
+            this.logInnerException = logInnerException;
             return this;
         }
 
@@ -157,4 +167,3 @@ namespace LogMonkey.ComponentImpl
         }
     }
 }
-

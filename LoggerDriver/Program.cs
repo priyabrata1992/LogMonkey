@@ -17,10 +17,23 @@ namespace LoggerDriver
             LoggerConfiguration configuration = LoggerConfiguration
                .Builder()
                .SetPrimaryLoggingMode(LogMode.Database)
-               .SetFallbackLoggingMode(LogMode.File)
+               //.SetFallbackLoggingMode(LogMode.File)
                .SetDatabaseConnection(connection)
-               .SetFilePath("")
+               .SetLogInnerException(true)
+               //.SetFilePath("")
                .Build();
+
+
+            Logger logger = Logger.Instance(configuration);
+
+            try {
+                throw new DivideByZeroException();
+            }
+            catch(Exception ex)
+            {
+                logger.E(ex, "Exception happended for input "+ "Some input");
+            }
+            Console.ReadKey();
         }
     }
 }
