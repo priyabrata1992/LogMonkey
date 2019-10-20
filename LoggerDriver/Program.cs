@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LogMonkey;
 using LogMonkey.ComponentImpl;
-using LogMonkey.Components;
+using System.Data.SqlClient;
 
 namespace LoggerDriver
 {
@@ -13,7 +13,14 @@ namespace LoggerDriver
     {
         static void Main(string[] args)
         {
-            LoggerConfiguration configuration = LoggerConfigurationBuilder.Builder();
+            SqlConnection connection = new SqlConnection();
+            LoggerConfiguration configuration = LoggerConfiguration
+               .Builder()
+               .SetPrimaryLoggingMode(LogMode.Database)
+               .SetFallbackLoggingMode(LogMode.File)
+               .SetDatabaseConnection(connection)
+               .SetFilePath("")
+               .Build();
         }
     }
 }

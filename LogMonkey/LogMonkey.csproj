@@ -41,12 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentImpl\LoggerConfiguration.cs" />
-    <Compile Include="ComponentImpl\LoggerConfigurationBuilder.cs" />
-    <Compile Include="Components\ILoggerConfiguration.cs" />
+    <Compile Include="Exceptions\NoFilePathProvidedException.cs" />
+    <Compile Include="Exceptions\NoDatabaseConnectionProvidedException.cs" />
+    <Compile Include="Constants\LoggerConstants.cs" />
+    <Compile Include="Exceptions\LoggerException.cs" />
+    <Compile Include="Exceptions\PrimaryLoggingSchemeMissingException.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Meta\LogMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

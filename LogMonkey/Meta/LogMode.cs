@@ -1,4 +1,4 @@
 ﻿public enum LogMode
 {
-    Primary, Fallback
+   File, Database, None
 }
