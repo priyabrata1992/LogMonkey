@@ -12,12 +12,6 @@ namespace LogMonkey.ComponentImpl
 {
     public class LoggerConfiguration
     {
-        //Instance, to be used for acheiving singleton patten
-        private static LoggerConfiguration mConfiguration;
-
-        //Lock object, for thread safety
-        private static readonly Object mLock = new Object();
-
         //Primary mode of logging to be used by the logger.
         private LogMode mPrimaryLoggingMode = LogMode.None;
         public LogMode PrimaryLoggingMode { get => mPrimaryLoggingMode; }
@@ -31,8 +25,8 @@ namespace LogMonkey.ComponentImpl
         public bool SendMailerNotificationOnFallback { get => sendMailerNotificationOnFallback; }
 
         //SqlConnection instance to be used for writing logs to database.
-        private SqlConnection sqlConnection;
-        public SqlConnection SqlConnection { get => sqlConnection; }
+        private String sqlConnectionString;
+        public String SqlConnectionString { get => sqlConnectionString; }
 
         //File path where logs are to be written.
         private String filePath;
@@ -42,25 +36,15 @@ namespace LogMonkey.ComponentImpl
         private bool logInnerException;
         public bool LogInnerException { get => logInnerException; }
 
-
-
         //Empty private constructor - we don't want multiple instances of this class.
         protected LoggerConfiguration()
         {
         }
 
-        //Return a single re-usable instance.
+        //Returns an instance of LoggerConfiguration
         private static LoggerConfiguration Instance()
         {
-            lock (mLock)
-            {
-                if (mConfiguration == null)
-                {
-                    mConfiguration = new LoggerConfiguration();
-                }
-
-                return mConfiguration;
-            }
+            return new LoggerConfiguration();
         }
 
         //Helper for the builder pattern
@@ -85,9 +69,9 @@ namespace LogMonkey.ComponentImpl
         }
 
         //Setting for the database connection.
-        public LoggerConfiguration SetDatabaseConnection(SqlConnection sqlConnection)
+        public LoggerConfiguration SetDatabaseConnectionString(String sqlConnectionString)
         {
-            this.sqlConnection = sqlConnection;
+            this.sqlConnectionString = sqlConnectionString;
             return this;
         }
 
@@ -125,7 +109,7 @@ namespace LogMonkey.ComponentImpl
                 switch (mPrimaryLoggingMode)
                 {
                     case LogMode.Database:
-                        CheckIfSqlConnectionIsSet(LogConstants.NoDatabaseConnectionProvidedMessage);
+                        CheckIfSqlConnectionIsSet(LogConstants.NoDatabaseConnectionStringProvidedMessage);
                         break;
                     case LogMode.File:
                         CheckIfFilePathIsSet(LogConstants.NoFilePathProvidedMessage);
@@ -137,9 +121,9 @@ namespace LogMonkey.ComponentImpl
         //Helper to check if SqlConnection object is present.
         private void CheckIfSqlConnectionIsSet(String exceptionMessage)
         {
-            if (sqlConnection == null)
+            if (sqlConnectionString == null)
             {
-                throw new NoDatabaseConnectionProvidedException(exceptionMessage);
+                throw new NoDatabaseConnectionStringProvidedException(exceptionMessage);
             }
         }
 
@@ -160,7 +144,7 @@ namespace LogMonkey.ComponentImpl
                 switch (mFallbackLoggingMode)
                 {
                     case LogMode.Database:
-                        CheckIfSqlConnectionIsSet(LogConstants.NoDatabaseConnectionProvidedForFallbackMessage);
+                        CheckIfSqlConnectionIsSet(LogConstants.NoDatabaseConnectionStringProvidedForFallbackMessage);
                         break;
                     case LogMode.File:
                         CheckIfFilePathIsSet(LogConstants.NoFilePathProvidedForFallbackMessage);

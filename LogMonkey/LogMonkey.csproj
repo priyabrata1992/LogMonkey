@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\LoggerConfiguration.cs" />
+    <Compile Include="Constants\LogType.cs" />
+    <Compile Include="Database\DBHandler.cs" />
     <Compile Include="Exceptions\NoFilePathProvidedException.cs" />
     <Compile Include="Exceptions\NoDatabaseConnectionProvidedException.cs" />
     <Compile Include="Constants\LogConstants.cs" />
@@ -52,7 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\" />
     <Folder Include="File\" />
     <Folder Include="Mail\" />
   </ItemGroup>

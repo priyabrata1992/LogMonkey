@@ -6,17 +6,17 @@ using System.Runtime.Serialization;
 namespace LogMonkey.ComponentImpl
 {
     [Serializable]
-    internal class NoDatabaseConnectionProvidedException : LoggerException
+    internal class NoDatabaseConnectionStringProvidedException : LoggerException
     {
-        public NoDatabaseConnectionProvidedException():base(LogConstants.NoDatabaseConnectionProvidedMessage)
+        public NoDatabaseConnectionStringProvidedException():base(LogConstants.NoDatabaseConnectionStringProvidedMessage)
         {
         }
 
-        public NoDatabaseConnectionProvidedException(string message) : base(message)
+        public NoDatabaseConnectionStringProvidedException(string message) : base(message)
         {
         }
 
-        public NoDatabaseConnectionProvidedException(string message, Exception innerException) : base(message, innerException)
+        public NoDatabaseConnectionStringProvidedException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

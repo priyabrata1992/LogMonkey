@@ -1,4 +1,6 @@
 ﻿using LogMonkey.ComponentImpl;
+using LogMonkey.Constants;
+using LogMonkey.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,7 @@ namespace LogMonkey
             sAlternateConfiguration = alternateConfiguration;
             sActiveLoggerConfiguration = sLoggerConfiguration;
             useAlternateConfiguration = false;
+            DBHandler.SetConnectionString(sActiveLoggerConfiguration.SqlConnectionString);
         }
 
         //Get a singleton instance of logger.
@@ -54,48 +57,40 @@ namespace LogMonkey
         {
             ToggleAlternateConfiguration();
             sActiveLoggerConfiguration = (useAlternateConfiguration) ? sAlternateConfiguration : sLoggerConfiguration;
+            DBHandler.SetConnectionString(sActiveLoggerConfiguration.SqlConnectionString);
             return useAlternateConfiguration;
         }
 
-        public bool Error(Exception ex)
+        public void Write(Exception ex, String methodName = null, String className = null, String extraInformation = null, LogType type = LogType.Error)
         {
+            String exceptionString = "NULL";
+            String innerExceptionString = "NULL";
+
             if (ex != null)
             {
-                Console.WriteLine("Exception::" + ex.ToString());
+                exceptionString = ex.ToString();
                 if (sActiveLoggerConfiguration.LogInnerException)
                 {
                     if (ex.InnerException != null)
                     {
-                        Console.WriteLine("InnerException::" + ex.InnerException.ToString());
+                        innerExceptionString = ex.InnerException.ToString();
                     }
                     else
                     {
-                        Console.WriteLine("InnerException::" + "NULL");
+                        innerExceptionString = "NULL";
                     }
                 }
             }
-            return true;
+            DBHandler.WriteExceptionToDatabase(
+                exceptionString,
+                innerExceptionString,
+                ex.StackTrace,
+                String.IsNullOrEmpty(methodName) ? "NULL" : methodName,
+                String.IsNullOrEmpty(className) ? "NULL" : className,
+                DateTime.Now,
+                type,
+                String.IsNullOrEmpty(extraInformation) ? "NULL" : extraInformation
+            );
         }
-
-        public bool Error(Exception ex, params object[] extraInformation)
-        {
-            this.Error(ex);
-            foreach (var e in extraInformation)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            return true;
-        }
-
-        public bool Warning()
-        {
-            return true;
-        }
-
-        public bool Information()
-        {
-            return true;
-        }
-
     }
 }
