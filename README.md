@@ -2,9 +2,10 @@
 The core idea behind this project is to provide a flexible logging mechanism to .NET developers.
 
 #Key Features
-1) Configurable Logging options.
+1) Configurable Logging options allows you to - configure once & use through out your project.
 2) Supports logging in both database (MSSQL as of now) & file.
 3) Fallback mode - if primary logging mode fails, you can configure a secondary mode.
+4) Switch between two configurations.
 
 Firstly - to use the database, create the following table -
 ```
