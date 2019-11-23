@@ -1,4 +1,4 @@
-# LogMonkey
+# LogMonkey v1.0
 The core idea behind this project is to provide a flexible log mechanism to .NET developers.
 
 #Key Features
