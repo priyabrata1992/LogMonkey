@@ -47,14 +47,15 @@
     <Compile Include="Exceptions\NoDatabaseConnectionProvidedException.cs" />
     <Compile Include="Constants\LogConstants.cs" />
     <Compile Include="Exceptions\LoggerException.cs" />
+    <Compile Include="Exceptions\PrimaryAndFallbackSchemeIsSameException.cs" />
     <Compile Include="Exceptions\PrimaryLoggingSchemeMissingException.cs" />
+    <Compile Include="FileWriter\FileHandler.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Exceptions\LoggerNotInitializedException.cs" />
     <Compile Include="Modes\LogMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="File\" />
     <Folder Include="Mail\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

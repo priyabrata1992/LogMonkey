@@ -18,7 +18,7 @@ namespace LogMonkey.ComponentImpl
         
         //Secondary/fallback mode of logging to be used by the logger, if primary mode fails.
         private LogMode mFallbackLoggingMode = LogMode.None;
-        public LogMode MFallbackLoggingMode { get => mFallbackLoggingMode; }
+        public LogMode FallbackLoggingMode { get => mFallbackLoggingMode; }
 
         //Whether to send a notification mailer when the primary mode fails, and fallback is executed.
         private bool sendMailerNotificationOnFallback;
@@ -54,9 +54,13 @@ namespace LogMonkey.ComponentImpl
         }
 
         //Setter for the fallback mode.
-        public LoggerConfiguration SetFallbackLoggingMode(LogMode mode, bool sendMailerNotification = false)
+        public LoggerConfiguration SetFallbackLoggingMode(LogMode mode)
         {
-            this.sendMailerNotificationOnFallback = sendMailerNotification;
+            if (mode == mPrimaryLoggingMode)
+            {
+                throw new PrimaryAndFallbackSchemeIsSameException(LogConstants.PrimaryAndFallbackModeCannotBeSame);
+            }
+            //this.sendMailerNotificationOnFallback = sendMailerNotification;
             this.mFallbackLoggingMode = mode;
             return this;
         }
@@ -64,6 +68,10 @@ namespace LogMonkey.ComponentImpl
         //Setter for the Primary mode.
         public LoggerConfiguration SetPrimaryLoggingMode(LogMode mode)
         {
+            if (mode == mFallbackLoggingMode)
+            {
+                throw new PrimaryAndFallbackSchemeIsSameException(LogConstants.PrimaryAndFallbackModeCannotBeSame);
+            }
             this.mPrimaryLoggingMode = mode;
             return this;
         }

@@ -22,20 +22,20 @@ namespace LoggerDriver
             LoggerConfiguration configuration = LoggerConfiguration
                .Builder()
                .SetPrimaryLoggingMode(LogMode.Database)
-               //.SetFallbackLoggingMode(LogMode.File)
+               .SetFallbackLoggingMode(LogMode.File)
                .SetDatabaseConnectionString(sqlConnectionString)
                .SetLogInnerException(true)
-               //.SetFilePath("")
+               .SetFilePath("D://")
                .Build();
 
             //Build the alternate configuration
             LoggerConfiguration alternateConfiguration = LoggerConfiguration
                .Builder()
-               .SetPrimaryLoggingMode(LogMode.Database)
-               //.SetFallbackLoggingMode(LogMode.File)
+               .SetPrimaryLoggingMode(LogMode.File)
+               .SetFallbackLoggingMode(LogMode.Database)
                .SetDatabaseConnectionString(sqlConnectionString)
                .SetLogInnerException(false)
-               //.SetFilePath("")
+               .SetFilePath("C://")
                .Build();
 
             //Initialization of the logger
@@ -45,7 +45,7 @@ namespace LoggerDriver
             Logger logger = Logger.Instance();
 
             //switch logger configurations.
-            //logger.SwitchConfiguration();
+            logger.SwitchConfiguration();
 
             try
             {
@@ -53,7 +53,7 @@ namespace LoggerDriver
             }
             catch (Exception ex)
             {
-                logger.Write(ex, "test", "Main", "Additional information");
+                logger.Write(LogType.Information, ex, "test", "Main", "Additional information");
             }
 
             //Make the console wait.
