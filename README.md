@@ -1,5 +1,5 @@
 # LogMonkey
-The core idea behind this project is to provide a flexible logging mechanism to .NET developers.
+The core idea behind this project is to provide a flexible log mechanism to .NET developers.
 
 #Key Features
 1) Configurable Logging options allows you to - configure once & use through out your project.
