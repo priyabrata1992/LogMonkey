@@ -1,7 +1,7 @@
 # LogMonkey v1.0
 The core idea behind this project is to provide a flexible log mechanism to .NET developers.
 
-#Key Features
+# Key Features
 1) Configurable Logging options allows you to - configure once & use through out your project.
 2) Supports logging in both database (MSSQL as of now) & file.
 3) Fallback mode - if primary logging mode fails, you can configure a secondary mode.
@@ -81,3 +81,8 @@ class Program
 
 Note that,  ``` .SetFilePath("D://Logs") ```, ensure the directory Logs exist, the library will try to write to that directory directory without 
 creating it.
+
+# Features planned -
+1) Support for email notification with configurable content.
+2) Customizable logging scheme for specific type of errors/exceptions.
+3) Support for MySql.
