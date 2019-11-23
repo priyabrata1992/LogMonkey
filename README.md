@@ -8,7 +8,7 @@ The core idea behind this project is to provide a flexible log mechanism to .NET
 4) Switch between two configurations.
 
 Firstly - to use the database, create the following table -
-```
+```sql
 CREATE SCHEMA LMK
 CREATE TABLE [LMK].[LOG_HISTORY] (
     [EXCEPTION_ID]      INT             IDENTITY (1, 1) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE [LMK].[LOG_HISTORY] (
 ```
 Example usage of the library -
 
-```
+```C#
 class Program
 {
     static void Main(string[] args)
